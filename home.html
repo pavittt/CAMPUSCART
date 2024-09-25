@@ -1,0 +1,53 @@
+<div class="container">
+    <h1>CampusCart</h1>
+  
+    <!-- Store Selection Section -->
+    <div id="storeSelection" class="section">
+      <h2>Select a Store</h2>
+      <div class="store-options">
+        <div class="store-card" onclick="selectStore('Enzo')">
+          <img src="https://via.placeholder.com/150?text=Enzo" alt="Enzo Store">
+          <button class="store-btn">Enzo</button>
+        </div>
+        <div class="store-card" onclick="selectStore('Balaji')">
+          <img src="https://via.placeholder.com/150?text=Balaji" alt="Balaji Store">
+          <button class="store-btn">Balaji</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Category Section -->
+    <div id="categories" class="section" style="display:none;">
+      <h2 id="storeName"></h2>
+      <div id="categorySelection" class="category-options"></div>
+      <button class="back-btn" onclick="goBackToStoreSelection()">Back to Store Selection</button>
+    </div>
+  
+    <!-- Product Section -->
+    <div id="products" class="section" style="display:none;">
+      <h2 id="categoryName"></h2>
+      <div id="productList" class="product-options"></div>
+  
+      <!-- Back to Categories button -->
+      <button class="back-btn" onclick="goBackToCategories()">Back to Categories</button>
+  
+      <!-- Go to Cart button (newly added) -->
+      <button class="checkout-btn" onclick="goToCart()">Go to Cart</button>
+    </div>
+  
+    <!-- Cart Section -->
+    <div id="cart" class="section" style="display:none;">
+      <h2>Cart Summary</h2>
+      <div id="cartItems" class="cart-items"></div>
+      <h3>Total: ₹<span id="totalPrice">0</span></h3>
+      <button class="checkout-btn" onclick="checkout()">Checkout</button>
+      <button class="back-btn" onclick="goBackToCategories()">Continue Shopping</button>
+    </div>
+  
+    <!-- Checkout Section -->
+    <div id="checkout" class="section" style="display:none;">
+      <h2>Payment Successful!</h2>
+      <p>Your token number is <span id="tokenNumber"></span>. Please collect your order at the selected store.</p>
+    </div>
+  </div>
+  
