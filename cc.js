@@ -1,157 +1,174 @@
-let currentStore = null;
-let currentCart = [];
-let totalPrice = 0;
-let tokenCounter = 1;
-
 const stores = {
-  Enzo: {
-    categories: {
-      food: [
-        { name: "Samosa", price: 15 },
-        { name: "Garlic Bread", price: 50 },
-        { name: "Sandwich", price: 40 }
-      ],
-      drinks: [
-        { name: "Monster", price: 120 },
-        { name: "Frooti", price: 20 },
-        { name: "Ice Tea", price: 40 }
-      ],
-      essentials: [
-        { name: "Perfume", price: 150 },
-        { name: "Handwash", price: 50 },
-        { name: "Shampoo", price: 80 }
-      ]
+    Balaji: {
+        categories: {
+            Stationery: [
+                { name: "Notebook", price: 50 },
+                { name: "Pen", price: 10 },
+                { name: "Pencil", price: 5 }
+            ],
+            Snacks: [
+                { name: "Chips", price: 30 },
+                { name: "Cookies", price: 25 }
+            ],
+            Beverages: [
+                { name: "Water", price: 20 },
+                { name: "Juice", price: 40 }
+            ]
+        }
+    },
+    Enzo: {
+        categories: {
+            Snacks: [
+                { name: "Chips", price: 30 },
+                { name: "Cookies", price: 25 }
+            ],
+            Beverages: [
+                { name: "Water", price: 20 },
+                { name: "Juice", price: 40 }
+            ],
+            "Daily Essentials": [
+                { name: "Toothpaste", price: 60 },
+                { name: "Shampoo", price: 120 }
+            ]
+        }
     }
-  },
-  Balaji: {
-    categories: {
-      stationary: [
-        { name: "Pen", price: 10 },
-        { name: "Pencil", price: 5 },
-        { name: "Calculator", price: 150 }
-      ],
-      beverages: [
-        { name: "Coke", price: 40 },
-        { name: "Pepsi", price: 40 },
-        { name: "Redbull", price: 120 }
-      ],
-      snacks: [
-        { name: "Lays", price: 20 },
-        { name: "Bingo", price: 20 },
-        { name: "Kurkure", price: 20 }
-      ]
-    }
-  }
 };
 
-function selectStore(storeName) {
-  if (currentStore && currentStore !== storeName && currentCart.length > 0) {
-    alert('Each store must have its own bill. You can only add items from the same store.');
-    return;
-  }
-  currentStore = storeName;
-  document.getElementById("storeSelection").style.display = "none";
-  document.getElementById("categories").style.display = "block";
-  document.getElementById("storeName").innerText = `Selected Store: ${storeName}`;
-  showCategories(storeName);
-}
+let currentStore = null;
+let currentCategory = null;
+let cart = [];
+let total = 0;
+let productCounts = {};
+let currentToken = 1000; // Starting token number
 
-function showCategories(storeName) {
-  const categorySelection = document.getElementById("categorySelection");
-  categorySelection.innerHTML = '';
-
-  const categories = stores[storeName].categories;
-  for (let category in categories) {
-    const btn = document.createElement("button");
-    btn.classList.add('category-btn');
-    btn.innerText = category;
-    btn.onclick = () => showProducts(category);
-    categorySelection.appendChild(btn);
-  }
-}
-
-function showProducts(category) {
-  document.getElementById("categories").style.display = "none";
-  document.getElementById("products").style.display = "block";
-  document.getElementById("categoryName").innerText = `Category: ${category}`;
-
-  const productList = document.getElementById("productList");
-  productList.innerHTML = '';
-
-  const products = stores[currentStore].categories[category];
-  products.forEach((product, index) => {
-    const productDiv = document.createElement("div");
-    productDiv.classList.add('product-card');
-    productDiv.innerHTML = `
-      <img src="https://via.placeholder.com/100?text=${product.name}" alt="${product.name}">
-      <p>${product.name} - ₹${product.price}</p>
-      <button onclick="updateCart(${index}, '${category}', 1)">+</button>
-      <span id="count-${index}-${category}">0</span>
-      <button onclick="updateCart(${index}, '${category}', -1)">-</button>
-    `;
-    productList.appendChild(productDiv);
-  });
-}
-
-function updateCart(index, category, count) {
-  const product = stores[currentStore].categories[category][index];
-  const productCount = document.getElementById(`count-${index}-${category}`);
-  let currentCount = parseInt(productCount.innerText);
-  currentCount += count;
-  
-  if (currentCount < 0) currentCount = 0;
-
-  productCount.innerText = currentCount;
-
-  if (count > 0) {
-    currentCart.push(product);
-    totalPrice += product.price;
-  } else if (count < 0 && currentCart.includes(product)) {
-    const idx = currentCart.indexOf(product);
-    if (idx > -1) {
-      currentCart.splice(idx, 1);
-      totalPrice -= product.price;
+function selectStore(store) {
+    if (cart.length > 0 && cart[0].store !== store) {
+        alert("You cannot add products from a different store. Complete your current order first.");
+        return;
     }
-  }
+    currentStore = store;
+    document.getElementById("store-selection").classList.add("hidden");
+    document.getElementById("category-selection").classList.remove("hidden");
+    document.getElementById("store-name").textContent = store;
+    loadCategories(store);
+}
 
-  document.getElementById("totalPrice").innerText = totalPrice;
+function loadCategories(store) {
+    const categoriesDiv = document.getElementById("categories");
+    categoriesDiv.innerHTML = "";
+    const categories = Object.keys(stores[store].categories);
+    categories.forEach(category => {
+        const btn = document.createElement("button");
+        btn.textContent = category;
+        btn.classList.add("category-btn");
+        btn.onclick = () => selectCategory(category);
+        categoriesDiv.appendChild(btn);
+    });
+}
+
+function selectCategory(category) {
+    currentCategory = category;
+    document.getElementById("category-selection").classList.add("hidden");
+    document.getElementById("product-selection").classList.remove("hidden");
+    document.getElementById("category-name").textContent = category;
+    loadProducts(category);
+}
+
+function loadProducts(category) {
+    const productsDiv = document.getElementById("products");
+    productsDiv.innerHTML = "";
+    const products = stores[currentStore].categories[category];
+    products.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+
+        if (!productCounts[product.name]) {
+            productCounts[product.name] = 0;
+        }
+
+        productDiv.innerHTML = `
+            <span>${product.name} - ₹${product.price}</span>
+            <div class="product-controls">
+                <button onclick="decrementCount('${product.name}', ${product.price})">-</button>
+                <span id="count-${product.name}">${productCounts[product.name]}</span>
+                <button onclick="incrementCount('${product.name}', ${product.price})">+</button>
+            </div>
+        `;
+        productsDiv.appendChild(productDiv);
+    });
+}
+
+function incrementCount(productName, productPrice) {
+    productCounts[productName]++;
+    document.getElementById(`count-${productName}`).textContent = productCounts[productName];
+    addToCart(productName, productPrice);
+}
+
+function decrementCount(productName, productPrice) {
+    if (productCounts[productName] > 0) {
+        productCounts[productName]--;
+        document.getElementById(`count-${productName}`).textContent = productCounts[productName];
+        removeFromCart(productName, productPrice);
+    }
+}
+
+function addToCart(productName, productPrice) {
+    total += productPrice;
+    cart.push({ name: productName, price: productPrice, store: currentStore });
+}
+
+function removeFromCart(productName, productPrice) {
+    const index = cart.findIndex(item => item.name === productName && item.price === productPrice);
+    if (index > -1) {
+        cart.splice(index, 1);
+        total -= productPrice;
+    }
+}
+
+function goBackToStore() {
+    document.getElementById("category-selection").classList.add("hidden");
+    document.getElementById("store-selection").classList.remove("hidden");
 }
 
 function goBackToCategories() {
-  document.getElementById("products").style.display = "none";
-  document.getElementById("categories").style.display = "block";
+    document.getElementById("product-selection").classList.add("hidden");
+    document.getElementById("category-selection").classList.remove("hidden");
 }
 
-function goBackToStoreSelection() {
-  document.getElementById("categories").style.display = "none";
-  document.getElementById("storeSelection").style.display = "block";
-  currentStore = null;
-  currentCart = [];
-  totalPrice = 0;
-  document.getElementById("totalPrice").innerText = 0;
+function viewCart() {
+    document.getElementById("cart").classList.remove("hidden");
+    document.getElementById("category-selection").classList.add("hidden");
+    document.getElementById("product-selection").classList.add("hidden");
+
+    const cartItemsDiv = document.getElementById("cart-items");
+    cartItemsDiv.innerHTML = "";
+    cart.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("cart-item");
+        itemDiv.innerHTML = `<span>${item.name} - ₹${item.price}</span>`;
+        cartItemsDiv.appendChild(itemDiv);
+    });
+
+    document.getElementById("total-price").textContent = total;
 }
 
-function goToCart() {
-  if (currentCart.length === 0) {
-    alert("Your cart is empty! Please add items before proceeding to checkout.");
-    return;
-  }
-  document.getElementById("products").style.display = "none";
-  document.getElementById("cart").style.display = "block";
+function processPayment() {
+    // Increment the current token first
+    currentToken++;
 
-  const cartItemsDiv = document.getElementById("cartItems");
-  cartItemsDiv.innerHTML = '';
-  currentCart.forEach((item, index) => {
-    const itemDiv = document.createElement("div");
-    itemDiv.innerText = `${item.name} - ₹${item.price}`;
-    cartItemsDiv.appendChild(itemDiv);
-  });
+    // Assign the new token number to the user
+    const userToken = currentToken;
 
-  document.getElementById("totalPrice").innerText = totalPrice;
+    document.getElementById("cart").classList.add("hidden");
+    document.getElementById("confirmation").classList.remove("hidden");
+    document.getElementById("token-number").textContent = userToken;
+    document.getElementById("current-token-number").textContent = userToken - 1; // Display the previous token number
+    document.getElementById("chosen-store").textContent = currentStore;
+
+    // Clear the cart and reset values
+    cart = [];
+    total = 0;
+    productCounts = {};
 }
 
-function checkout() {
-  document.getElementById("cart").style.display = "none";
-  document.getElementById("checkout").style.display = "block";
-  document.getElementById("tokenNumber").innerText = tokenCounter++;
-}
+

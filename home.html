@@ -1,53 +1,61 @@
-<div class="container">
-    <h1>CampusCart</h1>
-  
-    <!-- Store Selection Section -->
-    <div id="storeSelection" class="section">
-      <h2>Select a Store</h2>
-      <div class="store-options">
-        <div class="store-card" onclick="selectStore('Enzo')">
-          <img src="https://via.placeholder.com/150?text=Enzo" alt="Enzo Store">
-          <button class="store-btn">Enzo</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusCart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="https://i.ibb.co/7R9S5mQ/CAMPUS-CART.png" alt="CampusCart Logo" class="logo">
+    </header>
+
+    <div id="app">
+        <div id="store-selection">
+            <h2>Select a Store</h2>
+            <div class="center-buttons">
+                <div class="store">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipPvid8O1bdULvadw4AwwdWwUCVb5YmhyjKs8-tR=s1360-w1360-h1020" alt="Balaji Store" class="store-image">
+                    <button class="store-btn" onclick="selectStore('Balaji')">Balaji</button>
+                </div>
+                <div class="store">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipOomcITJf3vMUxnTH2axbI3V7BOz-ZLKFywWg-K=s1360-w1360-h1020" alt="Enzo Store" class="store-image">
+                    <button class="store-btn" onclick="selectStore('Enzo')">Enzo</button>
+                </div>
+            </div>
         </div>
-        <div class="store-card" onclick="selectStore('Balaji')">
-          <img src="https://via.placeholder.com/150?text=Balaji" alt="Balaji Store">
-          <button class="store-btn">Balaji</button>
+
+        <div id="category-selection" class="hidden">
+            <h2 id="store-name"></h2>
+            <h3>Select a Category</h3>
+            <div id="categories" class="center-buttons"></div>
+            <button class="nav-btn" onclick="goBackToStore()">Go Back to Stores</button>
+            <button class="cart-btn" onclick="viewCart()">View Cart</button>
         </div>
-      </div>
+
+        <div id="product-selection" class="hidden">
+            <h2 id="category-name"></h2>
+            <div id="products" class="center-buttons"></div>
+            <button class="nav-btn" onclick="goBackToCategories()">Go Back to Categories</button>
+            <button class="cart-btn" onclick="viewCart()">View Cart</button>
+        </div>
+
+        <div id="cart" class="hidden">
+            <h2>Cart Summary</h2>
+            <div id="cart-items"></div>
+            <h3>Total: ₹<span id="total-price">0</span></h3>
+            <button class="pay-btn" onclick="processPayment()">Pay</button>
+        </div>
+
+        <div id="confirmation" class="hidden">
+            <h2>Payment Successful!</h2>
+            <p>Your token number is <span id="token-number"></span>.</p>
+            <p>Current token number: <span id="current-token-number"></span>.</p>
+            <p>Please collect your order at <span id="chosen-store"></span>.</p>
+        </div>
     </div>
-  
-    <!-- Category Section -->
-    <div id="categories" class="section" style="display:none;">
-      <h2 id="storeName"></h2>
-      <div id="categorySelection" class="category-options"></div>
-      <button class="back-btn" onclick="goBackToStoreSelection()">Back to Store Selection</button>
-    </div>
-  
-    <!-- Product Section -->
-    <div id="products" class="section" style="display:none;">
-      <h2 id="categoryName"></h2>
-      <div id="productList" class="product-options"></div>
-  
-      <!-- Back to Categories button -->
-      <button class="back-btn" onclick="goBackToCategories()">Back to Categories</button>
-  
-      <!-- Go to Cart button (newly added) -->
-      <button class="checkout-btn" onclick="goToCart()">Go to Cart</button>
-    </div>
-  
-    <!-- Cart Section -->
-    <div id="cart" class="section" style="display:none;">
-      <h2>Cart Summary</h2>
-      <div id="cartItems" class="cart-items"></div>
-      <h3>Total: ₹<span id="totalPrice">0</span></h3>
-      <button class="checkout-btn" onclick="checkout()">Checkout</button>
-      <button class="back-btn" onclick="goBackToCategories()">Continue Shopping</button>
-    </div>
-  
-    <!-- Checkout Section -->
-    <div id="checkout" class="section" style="display:none;">
-      <h2>Payment Successful!</h2>
-      <p>Your token number is <span id="tokenNumber"></span>. Please collect your order at the selected store.</p>
-    </div>
-  </div>
-  
+
+    <script src="script.js"></script>
+</body>
+</html>

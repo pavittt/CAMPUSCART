@@ -1,161 +1,136 @@
-/* General styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    text-align: center;
     margin: 0;
-    padding: 0;
-  }
-  
-  h1, h2 {
+    padding: 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-size: 18px;
+}
+
+header {
+    background-color: black;
+    padding: 30px;
+    color: white;
+    text-align: center;
+}
+
+.logo {
+    width: 250px;
+    margin-bottom: 20px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: black;
+    padding: 10px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 24px;
     color: #333;
-  }
-  
-  .container {
-    width: 90%;
+}
+
+button {
+    padding: 15px;
+    margin: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+#app {
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Section Styling */
-  .section {
-    margin-bottom: 20px;
-  }
-  
-  /* Store selection styling */
-  .store-options {
+}
+
+.center-buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
-  }
-  
-  .store-card {
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .store-card img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-    transition: transform 0.3s;
-  }
-  
-  .store-card img:hover {
-    transform: scale(1.05);
-  }
-  
-  .store-btn {
-    display: block;
-    width: 100%;
-    padding: 10px 0;
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .store-btn:hover {
-    background-color: #45a049;
-  }
-  
-  /* Category options */
-  .category-options {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .category-btn {
-    background-color: #ff9800;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .category-btn:hover {
-    background-color: #e68900;
-  }
-  
-  /* Product options */
-  .product-options {
-    display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .product-card {
-    width: 200px;
-    padding: 10px;
-    background-color: #fafafa;
-    border-radius: 10px;
+}
+
+.store {
+    margin: 20px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-card img {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .product-card button {
-    background-color: #2196f3;
+}
+
+.store-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.store-btn {
+    background-color: #4CAF50;
     color: white;
-    padding: 8px 15px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .product-card button:hover {
-    background-color: #1976d2;
-  }
-  
-  /* Cart items */
-  .cart-items {
+    width: 100%;
+}
+
+.cart-btn {
+    background-color: #FF9800;
+    color: white;
+}
+
+.nav-btn {
+    background-color: #009688;
+    color: white;
+}
+
+.pay-btn {
+    background-color: #F44336;
+    color: white;
+    font-size: 24px;
+    padding: 20px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none;
+}
+
+#cart-items {
+    margin: 20px 0;
     text-align: left;
-    padding-left: 20px;
-  }
-  
-  .checkout-btn {
-    background-color: #f44336;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.product-controls {
+    display: flex;
+    align-items: center;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.category-btn {
+    background-color: #6A0DAD;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    border-radius: 8px;
     border: none;
-    border-radius: 5px;
+    margin: 10px;
+    transition: background-color 0.3s ease;
     cursor: pointer;
-  }
-  
-  .checkout-btn:hover {
-    background-color: #d32f2f;
-  }
-  
-  /* Back and continue buttons */
-  .back-btn {
-    background-color: #9e9e9e;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .back-btn:hover {
-    background-color: #757575;
-  }
-  
+}
+
+.category-btn:hover {
+    background-color: #4B0082;
+}
+
