@@ -12,6 +12,8 @@ header {
     padding: 30px;
     color: white;
     text-align: center;
+    border-radius: 15px; /* Add rounded edges to the header */
+    overflow: hidden; /* Ensure content is clipped within the rounded edges */
 }
 
 .logo {
@@ -68,9 +70,11 @@ button {
 }
 
 .store-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: black;  /* Set background color to black */
+    color: white;             /* Set text color to white for contrast */
     width: 100%;
+    font-family: 'Georgia', serif; /* Use the same premium font */
+    font-weight: bold;        /* Make the font bold */
 }
 
 .cart-btn {
@@ -133,4 +137,3 @@ button:disabled {
 .category-btn:hover {
     background-color: #4B0082;
 }
-
