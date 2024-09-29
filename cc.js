@@ -150,6 +150,18 @@ function viewCart() {
     });
 
     document.getElementById("total-price").textContent = total;
+
+    // Add a "Go Back to Categories" button
+    const backToCategoriesBtn = document.createElement("button");
+    backToCategoriesBtn.textContent = "Go Back to Categories";
+    backToCategoriesBtn.classList.add("nav-btn");
+    backToCategoriesBtn.onclick = () => goBackToCategoriesFromCart();
+    cartItemsDiv.appendChild(backToCategoriesBtn);
+}
+
+function goBackToCategoriesFromCart() {
+    document.getElementById("cart").classList.add("hidden");
+    document.getElementById("category-selection").classList.remove("hidden");
 }
 
 function processPayment() {
@@ -170,5 +182,3 @@ function processPayment() {
     total = 0;
     productCounts = {};
 }
-
-
